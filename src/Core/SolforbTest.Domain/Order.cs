@@ -4,7 +4,7 @@ namespace SolforbTest.Domain
     {
         private List<OrderItem>? _orderItems;
 
-        public int Id { get; private set; }
+        public int Id { get; init; }
 
         public string Number { get; set; }
 

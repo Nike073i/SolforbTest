@@ -2,7 +2,7 @@ namespace SolforbTest.Domain
 {
     public class OrderItem
     {
-        public int Id { get; private set; }
+        public int Id { get; init; }
 
         public int OrderId { get; }
 
