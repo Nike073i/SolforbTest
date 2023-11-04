@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using SolforbTest.Application.Common.Exceptions;
 using SolforbTest.Application.Interfaces;
+using SolforbTest.Application.Orders.Helpers;
 using SolforbTest.Domain;
 
 namespace SolforbTest.Application.Orders.Commands.CreateOrder
@@ -20,23 +21,26 @@ namespace SolforbTest.Application.Orders.Commands.CreateOrder
             CancellationToken cancellationToken
         )
         {
+            (string number, int providerId, var orderItemDtos) = request;
             var provider =
                 await _dbContext.Providers.FirstOrDefaultAsync(
-                    p => p.Id == request.ProviderId,
+                    p => p.Id == providerId,
                     cancellationToken
-                ) ?? throw new NotFoundException("Provider", request.ProviderId);
+                ) ?? throw new NotFoundException("Provider", providerId);
 
-            bool isExistsOrder = await _dbContext.Orders.AnyAsync(
-                o => o.Number == request.Number && o.ProviderId == request.ProviderId,
+            bool isExistsOrder = await _dbContext.Orders.HaveProviderOrder(
+                providerId,
+                number,
                 cancellationToken
             );
+
             if (isExistsOrder)
                 throw new AlreadyExistException(
-                    $"Заказ с номером - {request.Number} у поставщика с Id - {request.ProviderId} уже существует"
+                    $"Заказ с номером - {number} у поставщика с Id - {providerId} уже существует"
                 );
-            var order = new Order(request.Number, DateTime.UtcNow, request.ProviderId)
+            var order = new Order(number, DateTime.UtcNow, providerId)
             {
-                OrderItems = request.OrderItems
+                OrderItems = orderItemDtos
                     .Select(dto => new OrderItem(dto.Name, dto.Quantity, dto.Unit))
                     .ToList()
             };
