@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: mssql
+    environment:
+      ACCEPT_EULA: Y
+      MSSQL_SA_PASSWORD: VeryStrongPasSw0rD!
+    ports:
+      - "1434:1433"
+    volumes:
+    - ../db/mssql-data:/var/opt/mssql
+  web-client:
+    container_name: web-client
+    build:
+      context: ../src
+      dockerfile: Dockerfile
+    depends_on:
+      - mssql
+    ports:
+      - "8080:80"
+    environment:
+      DatabaseConnectionString: Server=mssql; User ID=SA; Password=VeryStrongPasSw0rD!;Database=solforb; TrustServerCertificate=True;
+      ASPNETCORE_ENVIRONMENT: Development

@@ -10,4 +10,7 @@
 *.suo
 *.log
 
-/.vscode
+.vscode
+.vs
+
+/db
