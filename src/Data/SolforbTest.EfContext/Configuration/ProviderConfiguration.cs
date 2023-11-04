@@ -17,6 +17,7 @@ namespace SolforbTest.EfContext.Configuration
 
         public void Configure(EntityTypeBuilder<Provider> builder)
         {
+            builder.ToTable("Provider");
             builder.HasData(InitialData);
         }
     }

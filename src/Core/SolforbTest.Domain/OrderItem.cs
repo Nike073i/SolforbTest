@@ -4,7 +4,7 @@ namespace SolforbTest.Domain
     {
         public int Id { get; init; }
 
-        public int OrderId { get; }
+        public int OrderId { get; init; }
 
         public string Name { get; set; }
 

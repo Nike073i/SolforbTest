@@ -8,7 +8,10 @@ namespace SolforbTest.EfContext.Context
     public class SolforbDbContext : DbContext, ISolforbDbContext
     {
         public SolforbDbContext(DbContextOptions<SolforbDbContext> dbContextOptions)
-            : base(dbContextOptions) { }
+            : base(dbContextOptions)
+        {
+            Database.Migrate();
+        }
 
         public DbSet<Order> Orders => Set<Order>();
         public DbSet<Provider> Providers => Set<Provider>();
