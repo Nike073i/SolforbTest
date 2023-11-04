@@ -12,9 +12,8 @@ namespace SolforbTest.Domain
 
         public string Unit { get; set; }
 
-        public OrderItem(int orderId, string name, decimal quantity, string unit)
+        public OrderItem(string name, decimal quantity, string unit)
         {
-            OrderId = orderId;
             Name = name;
             Quantity = quantity;
             Unit = unit;

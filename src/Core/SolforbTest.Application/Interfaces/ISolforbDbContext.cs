@@ -7,6 +7,6 @@ namespace SolforbTest.Application.Interfaces
     {
         DbSet<Order> Orders { get; }
         DbSet<Provider> Providers { get; }
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }
