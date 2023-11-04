@@ -19,7 +19,9 @@ namespace SolforbTest.Application.Providers.Queries.GetProviderList
             CancellationToken cancellationToken
         )
         {
-            var storedProviders = await _dbContext.Providers.ToListAsync();
+            var storedProviders = await _dbContext.Providers
+                .AsNoTracking()
+                .ToListAsync(cancellationToken);
             var models = storedProviders.Select(
                 provider => new NoteViewModel(provider.Id, provider.Name)
             );
