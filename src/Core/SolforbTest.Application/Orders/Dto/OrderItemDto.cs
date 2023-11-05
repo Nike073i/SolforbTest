@@ -4,8 +4,8 @@ namespace SolforbTest.Application.Orders.Dto
 
     public record UpdateOrderItemDto(
         int OrderItemId,
-        string? Name,
-        decimal? Quantity,
-        string? Unit
+        string? Name = null,
+        decimal? Quantity = null,
+        string? Unit = null
     );
 }
