@@ -22,21 +22,29 @@ namespace SolforbTest.Application.Orders.Commands.UpdateOrder
         {
             (int orderId, string? newNumber, int? newProviderId) = request;
             var order =
-                await _dbContext.Orders.FirstOrDefaultAsync(o => o.Id == orderId)
+                await _dbContext.Orders
+                    .Include(o => o.OrderItems)
+                    .FirstOrDefaultAsync(o => o.Id == orderId, cancellationToken)
                 ?? throw new NotFoundException("Order", orderId);
 
             order.ProviderId = newProviderId ?? order.ProviderId;
             order.Number = newNumber ?? order.Number;
 
-            bool isExistsOrder = await _dbContext.Orders.HaveProviderOrder(
+            if (order.OrderItems!.Any(item => item.Name == order.Number))
+                throw new InvalidOrderNumberException(
+                    $"Номер заказа - \"{order.Number}\" совпадает с названием элемента заказа"
+                );
+
+            bool orderExists = await _dbContext.Orders.HaveProviderOrder(
                 order.ProviderId,
                 order.Number,
                 cancellationToken
             );
-            if (isExistsOrder)
+            if (orderExists)
                 throw new AlreadyExistException(
                     $"Заказ с номером - {newNumber} у поставщика с Id - {request.ProviderId} уже существует"
                 );
+
             await _dbContext.SaveChangesAsync(cancellationToken);
             return orderId;
         }

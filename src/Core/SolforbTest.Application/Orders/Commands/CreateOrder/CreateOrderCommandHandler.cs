@@ -28,13 +28,13 @@ namespace SolforbTest.Application.Orders.Commands.CreateOrder
                     cancellationToken
                 ) ?? throw new NotFoundException("Provider", providerId);
 
-            bool isExistsOrder = await _dbContext.Orders.HaveProviderOrder(
+            bool orderExists = await _dbContext.Orders.HaveProviderOrder(
                 providerId,
                 number,
                 cancellationToken
             );
 
-            if (isExistsOrder)
+            if (orderExists)
                 throw new AlreadyExistException(
                     $"Заказ с номером - {number} у поставщика с Id - {providerId} уже существует"
                 );
