@@ -1,10 +1,11 @@
 using MediatR;
+using SolforbTest.Application.Orders.Dto;
 
 namespace SolforbTest.Application.Orders.Commands.CreateOrder
 {
     public record CreateOrderCommand(
         string Number,
         int ProviderId,
-        IEnumerable<OrderItemDto> OrderItems
+        IEnumerable<CreateOrderItemDto> OrderItems
     ) : IRequest<int>;
 }
