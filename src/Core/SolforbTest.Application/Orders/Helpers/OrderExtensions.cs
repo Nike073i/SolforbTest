@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using SolforbTest.Application.Common.Exceptions;
 using SolforbTest.Domain;
 
 namespace SolforbTest.Application.Orders.Helpers

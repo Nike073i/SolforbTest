@@ -35,9 +35,12 @@ namespace SolforbTest.Application.Orders.Commands.CreateOrder
             );
 
             if (orderExists)
+            {
                 throw new AlreadyExistException(
                     $"Заказ с номером - {number} у поставщика с Id - {providerId} уже существует"
                 );
+            }
+
             var order = new Order(number, DateTime.UtcNow, providerId)
             {
                 OrderItems = orderItemDtos

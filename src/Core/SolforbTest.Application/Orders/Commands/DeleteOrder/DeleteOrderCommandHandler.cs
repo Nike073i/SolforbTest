@@ -24,7 +24,7 @@ namespace SolforbTest.Application.Orders.Commands.DeleteOrder
                     .Include(o => o.OrderItems)
                     .FirstOrDefaultAsync(o => o.Id == request.OrderId, cancellationToken)
                 ?? throw new NotFoundException("Order", request.OrderId);
-                
+
             _dbContext.Orders.Remove(order);
             await _dbContext.SaveChangesAsync(cancellationToken);
             return request.OrderId;

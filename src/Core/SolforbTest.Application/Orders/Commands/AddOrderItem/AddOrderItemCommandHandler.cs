@@ -26,20 +26,24 @@ namespace SolforbTest.Application.Orders.Commands.AddOrderItem
                 ?? throw new NotFoundException("Order", orderId);
 
             if (order.Number == orderItemDto.Name)
+            {
                 throw new InvalidOrderNumberException(
                     $"Номер заказа - \"{order.Number}\" совпадает с названием элемента заказа"
                 );
+            }
 
             await _dbContext.Orders
                 .Entry(order)
                 .Collection(o => o.OrderItems!)
                 .LoadAsync(cancellationToken);
 
-            var orderItemExists = order.OrderItems!.Any(item => item.Name == orderItemDto.Name);
+            bool orderItemExists = order.OrderItems!.Any(item => item.Name == orderItemDto.Name);
             if (orderItemExists)
+            {
                 throw new AlreadyExistException(
                     $"Элемент заказа \"{orderItemDto.Name}\" уже существует в заказе ({orderId})"
                 );
+            }
 
             order.OrderItems!.Add(
                 new OrderItem(orderItemDto.Name, orderItemDto.Quantity, orderItemDto.Unit)

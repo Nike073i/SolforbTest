@@ -41,17 +41,21 @@ namespace SolforbTest.Application.Orders.Commands.UpdateOrderItem
             orderItem.Unit = newUnit ?? orderItem.Unit;
 
             if (order.Number == orderItem.Name)
+            {
                 throw new InvalidOrderNumberException(
                     $"Номер заказа - \"{order.Number}\" совпадает с названием элемента заказа"
                 );
+            }
 
             bool orderItemExists = order.OrderItems.Any(
                 item => item.Name == orderItem.Name && item.Id != orderItem.Id
             );
             if (orderItemExists)
+            {
                 throw new AlreadyExistException(
                     $"Элемент заказа \"{orderItem.Name}\" уже существует в заказе ({orderId})"
                 );
+            }
 
             await _dbContext.SaveChangesAsync(cancellationToken);
             return Unit.Value;

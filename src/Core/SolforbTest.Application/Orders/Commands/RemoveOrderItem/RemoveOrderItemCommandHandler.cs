@@ -30,11 +30,13 @@ namespace SolforbTest.Application.Orders.Commands.RemoveOrderItem
                 .LoadAsync(cancellationToken);
 
             if (order.OrderItems?.Count <= 1)
+            {
                 throw new RemoveForbiddenException(
                     "OrderItem",
                     orderItemId,
                     "Заказ не может не содержать элементов"
                 );
+            }
 
             var orderItem =
                 order.OrderItems?.FirstOrDefault(item => item.Id == orderItemId)

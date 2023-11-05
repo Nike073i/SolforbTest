@@ -31,9 +31,11 @@ namespace SolforbTest.Application.Orders.Commands.UpdateOrder
             order.Number = newNumber ?? order.Number;
 
             if (order.OrderItems!.Any(item => item.Name == order.Number))
+            {
                 throw new InvalidOrderNumberException(
                     $"Номер заказа - \"{order.Number}\" совпадает с названием элемента заказа"
                 );
+            }
 
             bool orderExists = await _dbContext.Orders.HaveProviderOrder(
                 order.ProviderId,
@@ -41,9 +43,11 @@ namespace SolforbTest.Application.Orders.Commands.UpdateOrder
                 cancellationToken
             );
             if (orderExists)
+            {
                 throw new AlreadyExistException(
                     $"Заказ с номером - {newNumber} у поставщика с Id - {request.ProviderId} уже существует"
                 );
+            }
 
             await _dbContext.SaveChangesAsync(cancellationToken);
             return orderId;
