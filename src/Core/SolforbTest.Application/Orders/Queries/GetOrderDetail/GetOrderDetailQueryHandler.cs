@@ -23,6 +23,7 @@ namespace SolforbTest.Application.Orders.Queries.GetOrderDetail
             int orderId = request.OrderId;
             var order =
                 await _dbContext.Orders
+                    .AsNoTracking()
                     .Include(o => o.OrderItems)
                     .Include(o => o.Provider)
                     .FirstOrDefaultAsync(o => o.Id == orderId, cancellationToken)
