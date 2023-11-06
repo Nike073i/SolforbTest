@@ -1,7 +1,7 @@
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using SolforbTest.Application.Common.Exceptions;
 using SolforbTest.Application.Interfaces;
+using SolforbTest.Application.Orders.Helpers;
 using SolforbTest.Domain;
 
 namespace SolforbTest.Application.Orders.Commands.AddOrderItem
@@ -21,9 +21,7 @@ namespace SolforbTest.Application.Orders.Commands.AddOrderItem
         )
         {
             (int orderId, var orderItemDto) = request;
-            var order =
-                await _dbContext.Orders.FirstOrDefaultAsync(o => o.Id == orderId, cancellationToken)
-                ?? throw new NotFoundException("Order", orderId);
+            var order = await _dbContext.Orders.GetByIdOrThrow(orderId, cancellationToken);
 
             if (order.Number == orderItemDto.Name)
             {

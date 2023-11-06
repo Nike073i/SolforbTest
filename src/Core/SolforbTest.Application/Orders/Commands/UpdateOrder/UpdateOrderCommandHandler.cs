@@ -21,11 +21,9 @@ namespace SolforbTest.Application.Orders.Commands.UpdateOrder
         )
         {
             (int orderId, string? newNumber, var newDate, int? newProviderId) = request;
-            var order =
-                await _dbContext.Orders
-                    .Include(o => o.OrderItems)
-                    .FirstOrDefaultAsync(o => o.Id == orderId, cancellationToken)
-                ?? throw new NotFoundException("Order", orderId);
+            var order = await _dbContext.Orders
+                .Include(o => o.OrderItems)
+                .GetByIdOrThrow(orderId, cancellationToken);
 
             order.Date = newDate ?? order.Date;
             order.ProviderId = newProviderId ?? order.ProviderId;

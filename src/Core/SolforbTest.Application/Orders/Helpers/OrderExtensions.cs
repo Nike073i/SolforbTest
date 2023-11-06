@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SolforbTest.Application.Common.Enums;
+using SolforbTest.Application.Common.Exceptions;
 using SolforbTest.Application.Common.Extensions;
 using SolforbTest.Application.Orders.Enums;
 using SolforbTest.Application.Orders.Options;
@@ -10,6 +11,16 @@ namespace SolforbTest.Application.Orders.Helpers
 {
     public static class OrderExtensions
     {
+        public static async Task<Order> GetByIdOrThrow(
+            this IQueryable<Order> queryable,
+            int id,
+            CancellationToken cancellationToken = default
+        )
+        {
+            return await queryable.FirstOrDefaultAsync(o => o.Id == id, cancellationToken)
+                ?? throw new NotFoundException(nameof(Order), id);
+        }
+
         public static Task<bool> HaveProviderOrder(
             this IQueryable<Order> queryable,
             int providerId,

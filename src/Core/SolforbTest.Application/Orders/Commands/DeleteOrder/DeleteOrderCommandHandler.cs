@@ -1,7 +1,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using SolforbTest.Application.Common.Exceptions;
 using SolforbTest.Application.Interfaces;
+using SolforbTest.Application.Orders.Helpers;
 
 namespace SolforbTest.Application.Orders.Commands.DeleteOrder
 {
@@ -19,11 +19,9 @@ namespace SolforbTest.Application.Orders.Commands.DeleteOrder
             CancellationToken cancellationToken
         )
         {
-            var order =
-                await _dbContext.Orders
-                    .Include(o => o.OrderItems)
-                    .FirstOrDefaultAsync(o => o.Id == request.OrderId, cancellationToken)
-                ?? throw new NotFoundException("Order", request.OrderId);
+            var order = await _dbContext.Orders
+                .Include(o => o.OrderItems)
+                .GetByIdOrThrow(request.OrderId, cancellationToken);
 
             _dbContext.Orders.Remove(order);
             await _dbContext.SaveChangesAsync(cancellationToken);

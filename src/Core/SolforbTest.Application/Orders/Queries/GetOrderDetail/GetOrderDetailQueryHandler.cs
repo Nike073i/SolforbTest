@@ -1,7 +1,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using SolforbTest.Application.Common.Exceptions;
 using SolforbTest.Application.Interfaces;
+using SolforbTest.Application.Orders.Helpers;
 
 namespace SolforbTest.Application.Orders.Queries.GetOrderDetail
 {
@@ -21,13 +21,11 @@ namespace SolforbTest.Application.Orders.Queries.GetOrderDetail
         )
         {
             int orderId = request.OrderId;
-            var order =
-                await _dbContext.Orders
-                    .AsNoTracking()
-                    .Include(o => o.OrderItems)
-                    .Include(o => o.Provider)
-                    .FirstOrDefaultAsync(o => o.Id == orderId, cancellationToken)
-                ?? throw new NotFoundException("Order", orderId);
+            var order = await _dbContext.Orders
+                .AsNoTracking()
+                .Include(o => o.OrderItems)
+                .Include(o => o.Provider)
+                .GetByIdOrThrow(orderId, cancellationToken);
 
             return new OrderDetailViewModel(
                 orderId,
