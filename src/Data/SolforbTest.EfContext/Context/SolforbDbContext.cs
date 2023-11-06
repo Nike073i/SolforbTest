@@ -16,6 +16,8 @@ namespace SolforbTest.EfContext.Context
         public DbSet<Order> Orders => Set<Order>();
         public DbSet<Provider> Providers => Set<Provider>();
 
+        public DbSet<OrderItem> OrderItems => Set<OrderItem>();
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
