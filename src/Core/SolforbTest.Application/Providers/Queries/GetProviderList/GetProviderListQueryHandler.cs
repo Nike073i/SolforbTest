@@ -5,7 +5,7 @@ using SolforbTest.Application.Interfaces;
 namespace SolforbTest.Application.Providers.Queries.GetProviderList
 {
     public class GetProviderListQueryHandler
-        : IRequestHandler<GetProviderListQuery, NoteListViewModel>
+        : IRequestHandler<GetProviderListQuery, ProvidersListViewModel>
     {
         private readonly ISolforbDbContext _dbContext;
 
@@ -14,7 +14,7 @@ namespace SolforbTest.Application.Providers.Queries.GetProviderList
             _dbContext = dbContext;
         }
 
-        public async Task<NoteListViewModel> Handle(
+        public async Task<ProvidersListViewModel> Handle(
             GetProviderListQuery request,
             CancellationToken cancellationToken
         )
@@ -23,7 +23,7 @@ namespace SolforbTest.Application.Providers.Queries.GetProviderList
                 .AsNoTracking()
                 .ToListAsync(cancellationToken);
             var models = storedProviders.Select(
-                provider => new NoteViewModel(provider.Id, provider.Name)
+                provider => new ProviderViewModel(provider.Id, provider.Name)
             );
             return new(models);
         }
