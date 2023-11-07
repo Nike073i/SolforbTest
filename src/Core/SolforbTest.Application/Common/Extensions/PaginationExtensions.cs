@@ -20,7 +20,7 @@ namespace SolforbTest.Application.Common.Extensions
                         nameof(pageSize),
                         "Текущая страница не может быть меньше нуля"
                     )
-                    : queryable.Skip(pageNumber * pageSize).Take(pageSize);
+                    : queryable.Skip((pageNumber - 1) * pageSize).Take(pageSize);
         }
     }
 }

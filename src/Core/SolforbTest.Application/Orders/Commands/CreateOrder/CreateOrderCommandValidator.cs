@@ -24,6 +24,6 @@ namespace SolforbTest.Application.Orders.Commands.CreateOrder
             items.Select(item => item.Name).Distinct().Count() == items.Count();
 
         private bool BeDifferentFromNumber(CreateOrderCommand command, string number) =>
-            command.OrderItems.Any(item => item.Name == number);
+            !command.OrderItems.Any(item => item.Name == number);
     }
 }
