@@ -90,7 +90,8 @@ namespace SolforbTest.Application.Orders.Helpers
                 : queryable.Where(
                     o =>
                         o.OrderItems != null
-                        && o.OrderItems.IntersectBy(units!, item => item.Unit).Any()
+                        && o.OrderItems.Any(item => units!.Any(unit => unit == item.Unit))
+                // IntersectBy(names, item => item.Name).Any() - LINQ не вывозит такую операцию при фильтрации на стороне БД
                 );
         }
 
@@ -104,7 +105,8 @@ namespace SolforbTest.Application.Orders.Helpers
                 : queryable.Where(
                     o =>
                         o.OrderItems != null
-                        && o.OrderItems.IntersectBy(names!, item => item.Name).Any()
+                        && o.OrderItems.Any(item => names!.Any(name => name == item.Name))
+                // IntersectBy(names, item => item.Name).Any() - LINQ не вывозит такую операцию при фильтрации на стороне БД
                 );
         }
 
@@ -125,11 +127,7 @@ namespace SolforbTest.Application.Orders.Helpers
         {
             return providerIds.IsNullOrEmpty()
                 ? queryable
-                : queryable.Where(
-                    o =>
-                        o.OrderItems != null
-                        && o.OrderItems.IntersectBy(providerIds!, item => item.Id).Any()
-                );
+                : queryable.Where(o => providerIds!.Any(id => id == o.ProviderId));
         }
     }
 }
