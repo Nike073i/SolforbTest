@@ -1,0 +1,29 @@
+@{
+    ViewData["Title"] = "Заказы";
+}
+<div class="row">
+    <div class="col-8 p-3">
+        @await Component.InvokeAsync("Orders", new
+            {
+                pageSize = ViewBag.PageSize,
+                pageNumber = ViewBag.PageNumber,
+                orderItemUnitsFilter = ViewBag.OrderItemUnitsFilter,
+                orderItemNamesFilter = ViewBag.OrderItemNamesFilter,
+                orderNumbersFilter = ViewBag.OrderNumbersFilter,
+                providerIdsFilter = ViewBag.ProviderIdsFilter,
+                periodStart = ViewBag.PeriodStart,
+                periodEnd = ViewBag.PeriodEnd,
+            })
+    </div>
+    <div class="col-4 p-3">
+        @await Component.InvokeAsync("OrderFilters", new
+            {
+                orderItemUnitsFilter = ViewBag.OrderItemUnitsFilter,
+                orderItemNamesFilter = ViewBag.OrderItemNamesFilter,
+                orderNumbersFilter = ViewBag.OrderNumbersFilter,
+                providerIdsFilter = ViewBag.ProviderIdsFilter,
+                periodStart = ViewBag.PeriodStart,
+                periodEnd = ViewBag.PeriodEnd,
+            })
+    </div>
+</div>

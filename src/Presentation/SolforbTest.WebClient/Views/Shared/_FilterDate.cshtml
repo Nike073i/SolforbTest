@@ -1,0 +1,5 @@
+@model FilterDateViewModel
+<div class="card">
+    <div class="card-header">@Model.FilterHeader</div>
+    <input asp-for="SelectedDate" name="@Model.FilterName" asp type="date">
+</div>

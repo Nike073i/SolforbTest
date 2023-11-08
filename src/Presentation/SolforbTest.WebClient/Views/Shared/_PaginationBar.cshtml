@@ -1,0 +1,55 @@
+@model PaginationViewModel
+
+@{
+    int pageCount = @Model.PageCount;
+    int currentPage = @Model.CurrentPage;
+    var queryParams = Context.Request.Query.ToDictionary(x => x.Key, x => x.Value);
+
+    string CreateQueryString(int pageNumber)
+    {
+        queryParams!["pageNumber"] = pageNumber.ToString();
+        return new QueryBuilder(queryParams).ToString();
+    }
+}
+
+<ul class="pagination">
+    <li class="page-item">
+        @if (currentPage != 1)
+        {
+            <a class="page-link" href="@CreateQueryString(currentPage - 1)">
+                <span>&laquo;</span>
+            </a>
+        }
+        else
+        {
+            <a class=" page-link disabled">
+                <span>&laquo;</span>
+            </a>
+        }
+    </li>
+    @for (int i = 0; i < 3; i++)
+    {
+        int pageLinkNumber = currentPage + i - 1;
+        if (pageLinkNumber < 1 || pageLinkNumber > pageCount) continue;
+        <li class="page-item @(pageLinkNumber == currentPage ? "active" : "")">
+            <a class="page-link" href="@CreateQueryString(pageLinkNumber)" )">
+                @pageLinkNumber
+            </a>
+        </li>
+    }
+    <li class="page-item">
+        @if (currentPage != pageCount)
+        {
+            <a class="page-link" href="@CreateQueryString(currentPage + 1)">
+                <span>&raquo;</span>
+            </a>
+        }
+        else
+        {
+            <a class=" page-link disabled">
+                <span>&raquo;</span>
+            </a>
+        }
+    </li>
+</ul>
+</nav>

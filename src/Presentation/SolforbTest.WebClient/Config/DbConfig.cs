@@ -1,4 +1,3 @@
-using System;
 using SolforbTest.WebClient.Config.Consts;
 
 namespace SolforbTest.WebClient.Config

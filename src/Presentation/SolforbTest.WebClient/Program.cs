@@ -1,20 +1,20 @@
-using MediatR;
+using Serilog;
 using SolforbTest.Application;
-using SolforbTest.Application.Providers.Queries.GetProviderList;
 using SolforbTest.EfContext.SqlServer;
 using SolforbTest.WebClient.Config;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Logging.AddSerilog();
+
 var configuration = builder.Configuration;
 string dbConnectionString = DbConfig.GetConnectionString(configuration);
+Log.Logger = LogConfig.GetLoggerConfiguration(configuration);
 
 var services = builder.Services;
 services.AddSqlServerDb(dbConnectionString);
 services.AddApplication();
+services.AddMvc();
 
 var app = builder.Build();
-
-app.MapGet("/", () => "Hello World!");
-app.MapGet("/providers", (IMediator mediator) => mediator.Send(new GetProviderListQuery()));
-
+app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}");
 app.Run();
