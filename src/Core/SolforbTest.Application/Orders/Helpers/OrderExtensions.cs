@@ -71,11 +71,11 @@ namespace SolforbTest.Application.Orders.Helpers
         {
             if (PeriodStart.HasValue)
             {
-                queryable = queryable.Where(o => o.Date.ToUniversalTime() >= PeriodStart.Value);
+                queryable = queryable.Where(o => o.Date >= PeriodStart.Value);
             }
             if (PeriodEnd.HasValue)
             {
-                queryable = queryable.Where(o => o.Date.ToUniversalTime() <= PeriodEnd.Value);
+                queryable = queryable.Where(o => o.Date <= PeriodEnd.Value);
             }
             return queryable;
         }
