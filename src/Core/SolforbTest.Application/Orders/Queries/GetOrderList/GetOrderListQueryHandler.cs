@@ -29,6 +29,7 @@ namespace SolforbTest.Application.Orders.Queries.GetOrderList
                 .Include(o => o.OrderItems);
 
             orders = orders.Filter(filterOptions);
+            int orderCount = orders.Count();
 
             paginationOptions ??= new PaginationOptions();
             orders = orders.Page(paginationOptions);
@@ -42,7 +43,7 @@ namespace SolforbTest.Application.Orders.Queries.GetOrderList
 
             return new OrderListViewModel(
                 paginationOptions.PageNumber,
-                (int)Math.Ceiling((double)orders.Count() / paginationOptions.PageSize),
+                (int)Math.Ceiling((double)orderCount / paginationOptions.PageSize),
                 ordersViewModel
             );
         }
