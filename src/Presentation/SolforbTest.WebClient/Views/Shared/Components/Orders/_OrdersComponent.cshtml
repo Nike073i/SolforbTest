@@ -16,7 +16,7 @@ orders)
             @foreach (var order in orders)
             {
                 <tr>
-                    <td>@order.OrderId</td>
+                    <td><a href="@Url.Action("Index", "Order", new { orderId = order.OrderId })">@order.OrderId</a></td>
                     <td>@order.Number</td>
                     <td>@order.Date</td>
                     <td>@order.ProviderName</td>

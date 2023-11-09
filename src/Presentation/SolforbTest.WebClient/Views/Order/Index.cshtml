@@ -1,0 +1,7 @@
+@{
+    int orderId = ViewBag.OrderId;
+    ViewData["Title"] = $"Заказ {orderId}";
+}
+<div class="row">
+    @await Component.InvokeAsync("OrderDetails", new { orderId })
+</div>
