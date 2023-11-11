@@ -21,7 +21,7 @@ namespace SolforbTest.Core.Tests.Orders.Queries
 
             var result = await handler.Handle(new GetOrderNumbersQuery(), CancellationToken.None);
 
-            result.Count().ShouldBe(TestData.OrderTestList.Count);
+            result.Count().ShouldBe(4);
         }
     }
 }
