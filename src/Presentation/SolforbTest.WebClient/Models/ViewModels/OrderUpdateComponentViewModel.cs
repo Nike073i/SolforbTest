@@ -25,7 +25,7 @@ namespace SolforbTest.WebClient.Models.ViewModels
             )
             {
                 OrderId = orderDetails.OrderId,
-                Date = orderDetails.Date.ToLocalTime(),
+                Date = orderDetails.Date,
                 Number = orderDetails.Number,
                 SelectedProvider = orderDetails.ProviderId
             };

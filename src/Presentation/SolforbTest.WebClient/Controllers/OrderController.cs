@@ -56,13 +56,12 @@ namespace SolforbTest.WebClient.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdatePost(UpdateOrderDto updateDto)
         {
-            var dtoWithUtcDate = updateDto with { Date = updateDto.Date.ToUniversalTime() };
             int orderId = await _mediator.Send(
                 new UpdateOrderCommand(
-                    dtoWithUtcDate.OrderId,
-                    dtoWithUtcDate.Number,
-                    dtoWithUtcDate.Date,
-                    dtoWithUtcDate.ProviderId
+                    updateDto.OrderId,
+                    updateDto.Number,
+                    updateDto.Date,
+                    updateDto.ProviderId
                 )
             );
             return RedirectToAction("Index", new { orderId });

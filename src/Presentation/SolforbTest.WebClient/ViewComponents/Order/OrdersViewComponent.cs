@@ -35,8 +35,8 @@ namespace SolforbTest.WebClient.ViewComponents.Order
                         Names: orderItemNamesFilter,
                         Numbers: orderNumbersFilter,
                         ProviderIds: providerIdsFilter,
-                        PeriodStart: periodStart?.ToUniversalTime(),
-                        PeriodEnd: periodEnd?.ToUniversalTime()
+                        PeriodStart: periodStart,
+                        PeriodEnd: periodEnd
                     )
                 )
             );
