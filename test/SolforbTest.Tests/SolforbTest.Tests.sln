@@ -7,14 +7,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{D930F9DF-4
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolforbTest.Core.Tests", "Core\SolforbTest.Core.Tests\SolforbTest.Core.Tests.csproj", "{151A2278-E85B-4F72-958C-6216A3D241D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolforbTest.Application", "..\..\src\Core\SolforbTest.Application\SolforbTest.Application.csproj", "{D016E5FB-FC5E-4755-BE04-6DC60555802F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolforbTest.Domain", "..\..\src\Core\SolforbTest.Domain\SolforbTest.Domain.csproj", "{DD648093-8107-4B75-9B94-DDA0B0FA0B0F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolforbTest.EfContext", "..\..\src\Data\SolforbTest.EfContext\SolforbTest.EfContext.csproj", "{8B180C44-2109-47E5-91E7-27F2CC7C0790}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolforbTest.EfContext.SqlServer", "..\..\src\Data\SolforbTest.EfContext.SqlServer\SolforbTest.EfContext.SqlServer.csproj", "{78923F07-922D-44EE-A655-B24BE3B52851}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,22 +20,6 @@ Global
 		{151A2278-E85B-4F72-958C-6216A3D241D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{151A2278-E85B-4F72-958C-6216A3D241D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{151A2278-E85B-4F72-958C-6216A3D241D2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D016E5FB-FC5E-4755-BE04-6DC60555802F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D016E5FB-FC5E-4755-BE04-6DC60555802F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D016E5FB-FC5E-4755-BE04-6DC60555802F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D016E5FB-FC5E-4755-BE04-6DC60555802F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DD648093-8107-4B75-9B94-DDA0B0FA0B0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DD648093-8107-4B75-9B94-DDA0B0FA0B0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DD648093-8107-4B75-9B94-DDA0B0FA0B0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DD648093-8107-4B75-9B94-DDA0B0FA0B0F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8B180C44-2109-47E5-91E7-27F2CC7C0790}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8B180C44-2109-47E5-91E7-27F2CC7C0790}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8B180C44-2109-47E5-91E7-27F2CC7C0790}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8B180C44-2109-47E5-91E7-27F2CC7C0790}.Release|Any CPU.Build.0 = Release|Any CPU
-		{78923F07-922D-44EE-A655-B24BE3B52851}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{78923F07-922D-44EE-A655-B24BE3B52851}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{78923F07-922D-44EE-A655-B24BE3B52851}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{78923F07-922D-44EE-A655-B24BE3B52851}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{151A2278-E85B-4F72-958C-6216A3D241D2} = {D930F9DF-4E39-4324-B5FE-4251EF61EA54}
