@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using SolforbTest.Application.Common.Exceptions;
+using SolforbTest.Application.Common.Extensions;
 using SolforbTest.Application.Interfaces;
 using SolforbTest.Application.Orders.Helpers;
 
@@ -20,14 +21,15 @@ namespace SolforbTest.Application.Orders.Commands.UpdateOrder
             CancellationToken cancellationToken
         )
         {
-            (int orderId, string? newNumber, var newDate, int? newProviderId) = request;
+            (int orderId, string newNumber, var newDate, int newProviderId) = request;
             var order = await _dbContext.Orders
                 .Include(o => o.OrderItems)
                 .GetByIdOrThrow(orderId, cancellationToken);
 
-            order.Date = newDate ?? order.Date;
-            order.ProviderId = newProviderId ?? order.ProviderId;
-            order.Number = newNumber ?? order.Number;
+            order.Date = newDate;
+            order.ProviderId = newProviderId;
+            bool isNumberChanged = !newNumber.Equals(order.Number, StringComparison.Ordinal);
+            order.Number = newNumber;
 
             if (order.OrderItems!.Any(item => item.Name == order.Number))
             {
@@ -35,13 +37,14 @@ namespace SolforbTest.Application.Orders.Commands.UpdateOrder
                     $"Номер заказа - \"{order.Number}\" совпадает с названием элемента заказа"
                 );
             }
-
-            bool orderExists = await _dbContext.Orders.HaveProviderOrder(
-                order.ProviderId,
-                order.Number,
-                cancellationToken
-            );
-            if (orderExists)
+            if (
+                isNumberChanged
+                && await _dbContext.Orders.DoesProviderAlreadyHaveOrder(
+                    order.ProviderId,
+                    order.Number,
+                    cancellationToken
+                )
+            )
             {
                 throw new AlreadyExistException(
                     $"Заказ с номером - {newNumber} у поставщика с Id - {request.ProviderId} уже существует"
