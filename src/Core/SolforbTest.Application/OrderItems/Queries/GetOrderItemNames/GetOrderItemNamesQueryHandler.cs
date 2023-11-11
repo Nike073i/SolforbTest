@@ -2,24 +2,24 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using SolforbTest.Application.Interfaces;
 
-namespace SolforbTest.Application.Orders.Queries.GetOrderItemUnits
+namespace SolforbTest.Application.OrderItems.Queries.GetOrderItemNames
 {
-    public class GetOrderItemUnitsQueryHandler
-        : IRequestHandler<GetOrderItemUnitsQuery, IEnumerable<string>>
+    public class GetOrderItemNamesQueryHandler
+        : IRequestHandler<GetOrderItemNamesQuery, IEnumerable<string>>
     {
         private readonly ISolforbDbContext _dbContext;
 
-        public GetOrderItemUnitsQueryHandler(ISolforbDbContext dbContext)
+        public GetOrderItemNamesQueryHandler(ISolforbDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
         public async Task<IEnumerable<string>> Handle(
-            GetOrderItemUnitsQuery request,
+            GetOrderItemNamesQuery request,
             CancellationToken cancellationToken
         ) =>
             await _dbContext.OrderItems
-                .Select(item => item.Unit)
+                .Select(item => item.Name)
                 .Distinct()
                 .ToListAsync(cancellationToken);
     }

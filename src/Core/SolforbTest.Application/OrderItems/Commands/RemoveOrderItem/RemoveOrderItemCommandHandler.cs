@@ -1,9 +1,9 @@
 using MediatR;
 using SolforbTest.Application.Common.Exceptions;
+using SolforbTest.Application.Common.Extensions;
 using SolforbTest.Application.Interfaces;
-using SolforbTest.Application.Orders.Helpers;
 
-namespace SolforbTest.Application.Orders.Commands.RemoveOrderItem
+namespace SolforbTest.Application.OrderItems.Commands.RemoveOrderItem
 {
     public class RemoveOrderItemCommandHandler : IRequestHandler<RemoveOrderItemCommand, Unit>
     {
@@ -26,15 +26,6 @@ namespace SolforbTest.Application.Orders.Commands.RemoveOrderItem
                 .Entry(order)
                 .Collection(o => o.OrderItems!)
                 .LoadAsync(cancellationToken);
-
-            if (order.OrderItems?.Count <= 1)
-            {
-                throw new RemoveForbiddenException(
-                    "OrderItem",
-                    orderItemId,
-                    "Заказ не может не содержать элементов"
-                );
-            }
 
             var orderItem =
                 order.OrderItems?.FirstOrDefault(item => item.Id == orderItemId)

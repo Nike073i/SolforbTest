@@ -1,10 +1,10 @@
 using MediatR;
 using SolforbTest.Application.Common.Exceptions;
+using SolforbTest.Application.Common.Extensions;
 using SolforbTest.Application.Interfaces;
-using SolforbTest.Application.Orders.Helpers;
 using SolforbTest.Domain;
 
-namespace SolforbTest.Application.Orders.Commands.AddOrderItem
+namespace SolforbTest.Application.OrderItems.Commands.AddOrderItem
 {
     public class AddOrderItemCommandHandler : IRequestHandler<AddOrderItemCommand, Unit>
     {

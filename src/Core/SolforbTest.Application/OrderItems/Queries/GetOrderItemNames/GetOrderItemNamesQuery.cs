@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace SolforbTest.Application.Orders.Queries.GetOrderItemNames
+namespace SolforbTest.Application.OrderItems.Queries.GetOrderItemNames
 {
     public record GetOrderItemNamesQuery : IRequest<IEnumerable<string>>;
 }

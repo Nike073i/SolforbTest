@@ -1,9 +1,9 @@
 using MediatR;
 using SolforbTest.Application.Common.Exceptions;
+using SolforbTest.Application.Common.Extensions;
 using SolforbTest.Application.Interfaces;
-using SolforbTest.Application.Orders.Helpers;
 
-namespace SolforbTest.Application.Orders.Commands.UpdateOrderItem
+namespace SolforbTest.Application.OrderItems.Commands.UpdateOrderItem
 {
     public class UpdateOrderItemCommandHandler : IRequestHandler<UpdateOrderItemCommand, Unit>
     {
@@ -19,10 +19,8 @@ namespace SolforbTest.Application.Orders.Commands.UpdateOrderItem
             CancellationToken cancellationToken
         )
         {
-            (
-                int orderId,
-                (int orderItemId, string? newName, decimal? newQuantity, string? newUnit)
-            ) = request;
+            (int orderId, int orderItemId, (string newName, decimal newQuantity, string newUnit)) =
+                request;
             var order = await _dbContext.Orders.GetByIdOrThrow(orderId, cancellationToken);
 
             await _dbContext.Orders
@@ -34,9 +32,9 @@ namespace SolforbTest.Application.Orders.Commands.UpdateOrderItem
                 order.OrderItems?.FirstOrDefault(o => o.Id == orderItemId)
                 ?? throw new NotFoundException("OrderItem", orderItemId);
 
-            orderItem.Name = newName ?? orderItem.Name;
-            orderItem.Quantity = newQuantity ?? orderItem.Quantity;
-            orderItem.Unit = newUnit ?? orderItem.Unit;
+            orderItem.Name = newName;
+            orderItem.Quantity = newQuantity;
+            orderItem.Unit = newUnit;
 
             if (order.Number == orderItem.Name)
             {

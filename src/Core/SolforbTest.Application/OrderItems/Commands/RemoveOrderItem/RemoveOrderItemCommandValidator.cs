@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace SolforbTest.Application.Orders.Commands.RemoveOrderItem
+namespace SolforbTest.Application.OrderItems.Commands.RemoveOrderItem
 {
     public class RemoveOrderItemCommandValidator : AbstractValidator<RemoveOrderItemCommand>
     {
