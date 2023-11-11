@@ -2,6 +2,7 @@ using Serilog;
 using SolforbTest.Application;
 using SolforbTest.EfContext.SqlServer;
 using SolforbTest.WebClient.Config;
+using SolforbTest.WebClient.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Logging.AddSerilog();
@@ -17,4 +18,5 @@ services.AddMvc();
 
 var app = builder.Build();
 app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}");
+app.UseAppExceptionHandler();
 app.Run();
