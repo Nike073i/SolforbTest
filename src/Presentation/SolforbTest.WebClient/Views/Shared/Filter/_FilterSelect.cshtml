@@ -1,0 +1,6 @@
+@model MultipleSelectFilterBindingModel
+<div class="card">
+    <div class="card-header">@Model.FilterHeader</div>
+    <select class="form-select card-body" multiple="multiple" asp-for="SelectedOptions" name="@Model.FilterFormName"
+        asp-items="Model.Options"></select>
+</div>

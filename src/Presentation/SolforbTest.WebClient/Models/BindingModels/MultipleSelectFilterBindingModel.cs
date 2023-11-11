@@ -1,33 +1,33 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace SolforbTest.WebClient.Models
+namespace SolforbTest.WebClient.Models.BindingModels
 {
-    public class FilterSelectViewModel : FilterViewModel
+    public class MultipleSelectFilterBindingModel : FilterBindingModel
     {
         public IEnumerable<SelectListItem> Options { get; }
-        public IEnumerable<string> SelectedOptions { get; }
+        public IEnumerable<string>? SelectedOptions { get; }
 
-        public FilterSelectViewModel(
+        public MultipleSelectFilterBindingModel(
             string filterHeader,
-            string filterName,
+            string filterFormName,
             IEnumerable<string> values,
             IEnumerable<string>? selectedOptions = null
         )
             : this(
                 filterHeader,
-                filterName,
+                filterFormName,
                 values.Select(value => new SelectListItem(value, value)),
                 selectedOptions ?? Enumerable.Empty<string>()
             )
         { }
 
-        public FilterSelectViewModel(
+        public MultipleSelectFilterBindingModel(
             string filterHeader,
-            string filterName,
+            string filterFormName,
             IEnumerable<SelectListItem> options,
             IEnumerable<string> selectedOptions
         )
-            : base(filterHeader, filterName)
+            : base(filterHeader, filterFormName)
         {
             Options = options;
             SelectedOptions = selectedOptions;
