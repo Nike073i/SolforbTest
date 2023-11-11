@@ -1,6 +1,6 @@
 namespace SolforbTest.Domain
 {
-    public class Order
+    public class Order : IEntity
     {
         public ICollection<OrderItem>? OrderItems { get; init; }
 

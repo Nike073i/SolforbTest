@@ -1,6 +1,6 @@
 namespace SolforbTest.Domain
 {
-    public class Provider
+    public class Provider : IEntity
     {
         public int Id { get; init; }
 
