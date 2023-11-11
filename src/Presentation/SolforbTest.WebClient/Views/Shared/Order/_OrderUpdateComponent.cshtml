@@ -1,0 +1,7 @@
+@model OrderUpdateComponentViewModel
+<div class="row gap-2">
+    <h2 class="text-center">Изменение заказа с Id @Model.UpdateInfoModel.OrderId</h2>
+
+    <partial name="/Views/Shared/Order/_OrderEditInfo.cshtml" model="@Model.UpdateInfoModel" />
+    <partial name="/Views/Shared/Order/_OrderItems.cshtml" model="@Model.OrderItems" />
+</div>

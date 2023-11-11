@@ -1,0 +1,6 @@
+@model OrderCreateComponentViewModel
+<div class="row gap-2">
+    <h2 class="text-center">Создание нового заказа</h2>
+
+    <partial name="/Views/Shared/Order/_OrderEditInfo.cshtml" model="@Model.OrderBindingModel" />
+</div>

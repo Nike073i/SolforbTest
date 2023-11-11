@@ -1,0 +1,6 @@
+@model OrderDetailsComponentViewModel
+<div class="row gap-2">
+    <h2 class="text-center">Заказ № @Model.OrderNumber</h2>
+    <partial name="/Views/Shared/Order/_OrderInfo.cshtml" model="@Model.OrderInfo" />
+    <partial name="/Views/Shared/Order/_OrderItems.cshtml" model="@Model.OrderItems" />
+</div>

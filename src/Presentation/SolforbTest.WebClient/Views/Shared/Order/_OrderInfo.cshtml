@@ -1,0 +1,21 @@
+@model OrderInfoViewModel
+
+<div class="card p-3">
+    <h3 class="card-title">Информация о заказе</h3>
+    <div class="row">
+        <div class="col-10">
+            <h4>Идентификатор: @Model.OrderId</h4>
+            <h4>Поставщик: @Model.ProviderName</h4>
+            <h4>Дата заказа: @Model.Date.ToLocalTime().ToShortDateString()</h4>
+        </div>
+        <div class="col-2 d-flex flex-column gap-2">
+            <a asp-controller="Order" asp-action="Update" asp-route-orderId="@Model.OrderId"
+                class="btn btn-primary">Редактировать</a>
+            <form asp-controller="Order" asp-action="Delete" method="post" asp-route-orderId="@Model.OrderId">
+                <button type="submit" class="btn btn-danger w-100"
+                    onclick="return confirm('Вы уверены, что хотите удалить заказ номер @Model.OrderId ?')">Удалить</button>
+            </form>
+        </div>
+
+    </div>
+</div>

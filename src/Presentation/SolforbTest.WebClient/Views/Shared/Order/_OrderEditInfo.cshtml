@@ -1,0 +1,34 @@
+@model OrderInfoBindingModel
+@{
+    bool isEdit = Model.OrderId.HasValue;
+    string aspAction = isEdit ? "UpdatePost" : "CreatePost";
+}
+<div class="card p-3">
+    <h3 class="card-title">Данные заказа</h3>
+    <form method="post" asp-controller="Order" asp-action="@aspAction" asp-route-orderId="@Model.OrderId">
+        <div class="row gap-2">
+            <div class="form-group">
+                <label asp-for="Number" class="control-label">Номер заказа</label>
+                <input asp-for="Number" type="text" class="form-control" placeholder="Номер заказа">
+                <span asp-validation-for="Number" class="text-danger" />
+            </div>
+            <div class="form-group">
+                <label asp-for="SelectedProvider" class="control-label">Поставщик</label>
+                <select class="form-select" asp-for="SelectedProvider" name="providerId"
+                    asp-items="Model.Providers"></select>
+                <span asp-validation-for="SelectedProvider" class="text-danger" />
+            </div>
+            @if (isEdit)
+            {
+                <div class="form-group">
+                    <label asp-for="Date" class="control-label">Дата заказа</label>
+                    <input type="date" asp-for="Date" class="form-control" id="dateInput">
+                    <span asp-validation-for="Date" class="text-danger" />
+                </div>
+            }
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-success">Сохранить</button>
+            </div>
+        </div>
+    </form>
+</div>
