@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using SolforbTest.Application.Common.Options;
 using SolforbTest.Application.Orders.Options;
 using SolforbTest.Application.Orders.Queries.GetOrderList;
-using SolforbTest.WebClient.Models;
+using SolforbTest.WebClient.Models.ViewModels;
 
-namespace SolforbTest.WebClient.ViewComponents.Orders
+namespace SolforbTest.WebClient.ViewComponents.Order
 {
     public class OrdersViewComponent : ViewComponent
     {
@@ -27,7 +27,7 @@ namespace SolforbTest.WebClient.ViewComponents.Orders
             DateTime? periodEnd
         )
         {
-            var orderViewModels = await _mediator.Send(
+            var orderList = await _mediator.Send(
                 new GetOrderListQuery(
                     PaginationOptions: new PaginationOptions(pageSize, pageNumber),
                     FilterOptions: new OrderFilterOptions(
@@ -35,13 +35,19 @@ namespace SolforbTest.WebClient.ViewComponents.Orders
                         Names: orderItemNamesFilter,
                         Numbers: orderNumbersFilter,
                         ProviderIds: providerIdsFilter,
-                        PeriodStart: periodStart,
-                        PeriodEnd: periodEnd
+                        PeriodStart: periodStart?.ToUniversalTime(),
+                        PeriodEnd: periodEnd?.ToUniversalTime()
                     )
                 )
             );
 
-            return View("_OrdersComponent", new OrdersComponentViewModel(orderViewModels));
+            return View(
+                "/Views/Shared/Order/_OrdersComponent.cshtml",
+                new OrdersComponentViewModel(
+                    orderList.Orders,
+                    new PaginationViewModel(orderList.PageNumber, orderList.PageCount)
+                )
+            );
         }
     }
 }

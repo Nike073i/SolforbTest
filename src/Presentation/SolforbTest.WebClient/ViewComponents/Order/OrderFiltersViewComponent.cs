@@ -1,14 +1,15 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using SolforbTest.Application.Orders.Queries.GetOrderItemNames;
-using SolforbTest.Application.Orders.Queries.GetOrderItemUnits;
+using SolforbTest.Application.OrderItems.Queries.GetOrderItemNames;
+using SolforbTest.Application.OrderItems.Queries.GetOrderItemUnits;
 using SolforbTest.Application.Orders.Queries.GetOrderNumbers;
 using SolforbTest.Application.Providers.Queries.GetProviderList;
-using SolforbTest.WebClient.Models;
+using SolforbTest.WebClient.Models.BindingModels;
+using SolforbTest.WebClient.Models.ViewModels;
 using System.Globalization;
 
-namespace SolforbTest.WebClient.ViewComponents.OrderFilters
+namespace SolforbTest.WebClient.ViewComponents.Order
 {
     public class OrderFiltersViewComponent : ViewComponent
     {
@@ -19,22 +20,22 @@ namespace SolforbTest.WebClient.ViewComponents.OrderFilters
             _mediator = mediator;
         }
 
-        private static FilterSelectViewModel CreateNamesFilterViewModel(
+        private static MultipleSelectFilterBindingModel CreateNamesFilterModel(
             IEnumerable<string> values,
             IEnumerable<string> selectedValues
         ) => new("Фильтр по наименованиям", "OrderItemNames", values, selectedValues);
 
-        private static FilterSelectViewModel CreateUnitsFilterViewModel(
+        private static MultipleSelectFilterBindingModel CreateUnitsFilterModel(
             IEnumerable<string> values,
             IEnumerable<string> selectedValues
         ) => new("Фильтр по величинам", "OrderItemUnits", values, selectedValues);
 
-        private static FilterSelectViewModel CreateNumbersFilterViewModel(
+        private static MultipleSelectFilterBindingModel CreateNumbersFilterModel(
             IEnumerable<string> values,
             IEnumerable<string> selectedValues
         ) => new("Фильтр по номерам", "OrderNumbers", values, selectedValues);
 
-        private static FilterSelectViewModel CreateProvidersFilterViewModel(
+        private static MultipleSelectFilterBindingModel CreateProvidersFilterModel(
             IEnumerable<ProviderViewModel> providers,
             IEnumerable<int> selectedValues
         ) =>
@@ -47,13 +48,11 @@ namespace SolforbTest.WebClient.ViewComponents.OrderFilters
                 selectedValues.Select(pId => pId.ToString(CultureInfo.InvariantCulture))
             );
 
-        private static FilterDateViewModel CreatePeriodStartFilterViewModel(
-            DateTime? periodStart
-        ) =>
-            new("Дата начала периода", "PeriodStart", periodStart ?? DateTime.UtcNow.AddMonths(-1));
+        private static DateFilterBindingModel CreatePeriodStartFilterModel(DateTime? periodStart) =>
+            new("Дата начала периода", "PeriodStart", periodStart ?? DateTime.Now.AddMonths(-1));
 
-        private static FilterDateViewModel CreatPeriodEndFilterViewModel(DateTime? periodEnd) =>
-            new("Дата окончания периода", "PeriodEnd", periodEnd ?? DateTime.UtcNow);
+        private static DateFilterBindingModel CreatPeriodEndFilterModel(DateTime? periodEnd) =>
+            new("Дата окончания периода", "PeriodEnd", periodEnd ?? DateTime.Now);
 
         public async Task<IViewComponentResult> InvokeAsync(
             IEnumerable<string> orderItemUnitsFilter,
@@ -71,14 +70,14 @@ namespace SolforbTest.WebClient.ViewComponents.OrderFilters
             var providerViewModels = await _mediator.Send(new GetProviderListQuery());
 
             return View(
-                "_OrderFiltersComponent",
+                "/Views/Shared/Order/_OrderFiltersComponent.cshtml",
                 new OrderFiltersComponentViewModel(
-                    CreateNamesFilterViewModel(orderItemNames, orderItemNamesFilter),
-                    CreateUnitsFilterViewModel(orderItemUnits, orderItemUnitsFilter),
-                    CreateNumbersFilterViewModel(orderNumbers, orderNumbersFilter),
-                    CreateProvidersFilterViewModel(providerViewModels.Providers, providerIdsFilter),
-                    CreatePeriodStartFilterViewModel(PeriodStart),
-                    CreatPeriodEndFilterViewModel(PeriodEnd)
+                    CreateNamesFilterModel(orderItemNames, orderItemNamesFilter),
+                    CreateUnitsFilterModel(orderItemUnits, orderItemUnitsFilter),
+                    CreateNumbersFilterModel(orderNumbers, orderNumbersFilter),
+                    CreateProvidersFilterModel(providerViewModels.Providers, providerIdsFilter),
+                    CreatePeriodStartFilterModel(PeriodStart),
+                    CreatPeriodEndFilterModel(PeriodEnd)
                 )
             );
         }

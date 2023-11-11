@@ -1,0 +1,37 @@
+@model OrdersComponentViewModel
+
+<div class="card p-3">
+    <h2 class="card-title">Заказы</h2>
+    <nav class="d-flex justify-content-end">
+        <a class="btn btn-primary" asp-action="Create" asp-controller="Order">Создать заказ</a>
+    </nav>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>№</th>
+                <th>Дата</th>
+                <th>Поставщик</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model.Orders)
+            {
+                <tr>
+                    <td>
+                        <a asp-action="Index" asp-controller="Order" asp-route-orderId="@order.OrderId">
+                            @order.OrderId
+                        </a>
+                    </td>
+                    <td>@order.Number</td>
+                    <td>@order.Date.ToLocalTime().ToShortDateString()</td>
+                    <td>@order.ProviderName</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <nav class="d-flex justify-content-center">
+        <partial name="/Views/Shared/Pagination/_PaginationBar.cshtml" model="Model.Pagination" />
+    </nav>
+</div>

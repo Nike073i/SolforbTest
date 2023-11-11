@@ -1,0 +1,16 @@
+@model OrderFiltersComponentViewModel
+
+<div class="card p-3">
+    <h2 class="card-title">Фильтры</h2>
+    <form asp-method="get">
+        <div class="d-flex flex-column gap-2">
+            <partial name="/Views/Shared/Filter/_FilterDate.cshtml" model="Model.PeriodStart" />
+            <partial name="/Views/Shared/Filter/_FilterDate.cshtml" model="Model.PeriodEnd" />
+            <partial name="/Views/Shared/Filter/_FilterSelect.cshtml" model="Model.OrderItemNames" />
+            <partial name="/Views/Shared/Filter/_FilterSelect.cshtml" model="Model.OrderItemUnits" />
+            <partial name="/Views/Shared/Filter/_FilterSelect.cshtml" model="Model.OrderNumbers" />
+            <partial name="/Views/Shared/Filter/_FilterSelect.cshtml" model="Model.Providers" />
+            <button type="submit" class="btn btn-primary">Применить фильтры</button>
+        </div>
+    </form>
+</div>
