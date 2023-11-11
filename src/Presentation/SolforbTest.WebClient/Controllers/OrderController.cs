@@ -1,6 +1,9 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using SolforbTest.Application.Orders.Commands.CreateOrder;
 using SolforbTest.Application.Orders.Commands.DeleteOrder;
+using SolforbTest.Application.Orders.Commands.UpdateOrder;
+using SolforbTest.WebClient.Models.Dto;
 
 namespace SolforbTest.WebClient.Controllers
 {
@@ -21,13 +24,48 @@ namespace SolforbTest.WebClient.Controllers
             return View();
         }
 
+        [HttpGet("create")]
+        public IActionResult Create() => View("Create");
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreatePost(CreateOrderCommand createDtoCommand)
+        {
+            int orderId = await _mediator.Send(createDtoCommand);
+            return RedirectToAction("Index", new { orderId });
+        }
+
         // Form в HTML5 имеет только post & get.
-        [HttpPost("delete/{orderId:int:min(1)}")]
+        [HttpPost("{orderId:int:min(1)}/delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int orderId)
         {
             await _mediator.Send(new DeleteOrderCommand(orderId));
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet("{orderId:int:min(1)}/update")]
+        public IActionResult Update(int orderId)
+        {
+            ViewBag.OrderId = orderId;
+            return View();
+        }
+
+        // Form в HTML5 имеет только post & get.
+        [HttpPost("{orderId:int:min(1)}/update")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdatePost(UpdateOrderDto updateDto)
+        {
+            var dtoWithUtcDate = updateDto with { Date = updateDto.Date.ToUniversalTime() };
+            int orderId = await _mediator.Send(
+                new UpdateOrderCommand(
+                    dtoWithUtcDate.OrderId,
+                    dtoWithUtcDate.Number,
+                    dtoWithUtcDate.Date,
+                    dtoWithUtcDate.ProviderId
+                )
+            );
+            return RedirectToAction("Index", new { orderId });
         }
     }
 }
