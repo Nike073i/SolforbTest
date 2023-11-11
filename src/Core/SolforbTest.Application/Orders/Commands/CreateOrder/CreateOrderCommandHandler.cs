@@ -1,6 +1,6 @@
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using SolforbTest.Application.Common.Exceptions;
+using SolforbTest.Application.Common.Extensions;
 using SolforbTest.Application.Interfaces;
 using SolforbTest.Application.Orders.Helpers;
 using SolforbTest.Domain;
@@ -21,14 +21,10 @@ namespace SolforbTest.Application.Orders.Commands.CreateOrder
             CancellationToken cancellationToken
         )
         {
-            (string number, int providerId, var orderItemDtos) = request;
-            var provider =
-                await _dbContext.Providers.FirstOrDefaultAsync(
-                    p => p.Id == providerId,
-                    cancellationToken
-                ) ?? throw new NotFoundException("Provider", providerId);
+            (string number, int providerId) = request;
+            await _dbContext.Providers.ThrowIfDoesntExist(providerId, cancellationToken);
 
-            bool orderExists = await _dbContext.Orders.HaveProviderOrder(
+            bool orderExists = await _dbContext.Orders.DoesProviderAlreadyHaveOrder(
                 providerId,
                 number,
                 cancellationToken
@@ -41,12 +37,7 @@ namespace SolforbTest.Application.Orders.Commands.CreateOrder
                 );
             }
 
-            var order = new Order(number, DateTime.UtcNow, providerId)
-            {
-                OrderItems = orderItemDtos
-                    .Select(dto => new OrderItem(dto.Name, dto.Quantity, dto.Unit))
-                    .ToList()
-            };
+            var order = new Order(number, DateTime.UtcNow, providerId);
             await _dbContext.Orders.AddAsync(order, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
             return order.Id;
