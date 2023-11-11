@@ -16,7 +16,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Data\SolforbTest.EfContext.SqlServer\SolforbTest.EfContext.SqlServer.csproj" />
+    <ProjectReference Include="..\..\src\Data\SolforbTest.EfContext\SolforbTest.EfContext.csproj" />
+    <ProjectReference Include="..\..\src\Data\SolforbTest.EfContext.SqlServer\SolforbTest.EfContext.SqlServer.csproj" />
+    <ProjectReference Include="..\..\src\Core\SolforbTest.Application\SolforbTest.Application.csproj" />
+    <ProjectReference Include="..\..\src\Core\SolforbTest.Domain\SolforbTest.Domain.csproj" />
   </ItemGroup>
 
 </Project>
