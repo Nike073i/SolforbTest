@@ -1,0 +1,34 @@
+@model OrderItemBindingModel
+@{
+    string header = Model.OrderItemId.HasValue ? "Редактирование элемента заказа" : "Добавление элемента заказа";
+    string aspAction = Model.OrderItemId.HasValue ? "UpdateItemPost" : "AddItemPost";
+}
+<h2 class="text-center">@header</h2>
+<div class="card p-3">
+    <h3 class="card-title">Данные элемента заказа</h3>
+    <form method="post" asp-controller="OrderItem" asp-action="@aspAction" asp-route-orderId="@Model.OrderId">
+        <div class="row gap-2">
+            @if (Model.OrderItemId.HasValue)
+            {
+                <input type="hidden" asp-for="OrderItemId" />
+            }
+            <div class="form-group">
+                <label asp-for="Name" class="control-label">Наименование</label>
+                <input asp-for="Name" type="text" class="form-control" placeholder="Наименование">
+                <span asp-validation-for="Name" class="text-danger" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Quantity" class="control-label">Количество</label>
+                <input asp-for="Quantity" type="number" class="form-control" placeholder="Количество">
+                <span asp-validation-for="Quantity" class="text-danger" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Unit" class="control-label">Единица</label>
+                <input type="text" asp-for="Unit" class="form-control" placeholder="Единица">
+                <span asp-validation-for="Unit" class="text-danger" />
+            </div>
+
+            <button type="submit" class="btn btn-success">Сохранить</button>
+        </div>
+    </form>
+</div>
