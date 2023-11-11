@@ -1,7 +1,8 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using SolforbTest.Application.Common.Extensions;
 using SolforbTest.Application.Interfaces;
-using SolforbTest.Application.Orders.Helpers;
+using SolforbTest.Application.OrderItems.Dto;
 
 namespace SolforbTest.Application.Orders.Queries.GetOrderDetail
 {
@@ -32,6 +33,7 @@ namespace SolforbTest.Application.Orders.Queries.GetOrderDetail
                 order.Number,
                 order.Date,
                 order.Provider!.Name,
+                order.ProviderId,
                 order.OrderItems!.Select(
                     item => new OrderItemViewModel(item.Id, item.Name, item.Quantity, item.Unit)
                 )
