@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SolforbTest.EfContext.Context;
 
@@ -11,9 +12,11 @@ using SolforbTest.EfContext.Context;
 namespace SolforbTest.EfContext.SqlServer.Migrations
 {
     [DbContext(typeof(SolforbDbContext))]
-    partial class SolforbDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231111123156_Add index by date in order")]
+    partial class Addindexbydateinorder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
