@@ -7,8 +7,14 @@ namespace SolforbTest.Core.Tests.Common
     {
         public static int TestOrderItemId => 1001;
         public static string TestOrderItemName => "Name 1";
+        public static string TestOrderItemName2 => "Name 2";
         public static decimal TestOrderItemQuantity => 15.531m;
         public static string TestOrderItemUnit => "kg";
+
+        public static int TestOrderId => 1;
+        public static string TestOrderNumber => "Number 1";
+        public static DateTime TestOrderDate => CreateDateTime("11/15/2023");
+        public static int TestOrderProviderId => 1;
 
         public static DateTime CreateDateTime(string dateTime) =>
             DateTime.Parse(dateTime, CultureInfo.CreateSpecificCulture("en-US"));
@@ -16,16 +22,16 @@ namespace SolforbTest.Core.Tests.Common
         public static List<Order> OrderTestList =>
             new()
             {
-                new Order("Number 1", CreateDateTime("11/15/2023"), 1)
+                new Order(TestOrderNumber, TestOrderDate, TestOrderProviderId)
                 {
-                    Id = 1,
+                    Id = TestOrderId,
                     OrderItems = new List<OrderItem>
                     {
                         new OrderItem(TestOrderItemName, TestOrderItemQuantity, TestOrderItemUnit)
                         {
                             Id = TestOrderItemId
                         },
-                        new OrderItem("Name 2", 16.531m, "vt") { Id = 1002 },
+                        new OrderItem(TestOrderItemName2, 16.531m, "vt") { Id = 1002 },
                         new OrderItem("Name 3", 16.531m, "vt") { Id = 1003 },
                     }
                 },
