@@ -23,7 +23,7 @@ namespace SolforbTest.Core.Tests.Orders.Queries
             int currentPage = 1;
             var paginationOptions = new PaginationOptions(pageSize, currentPage);
 
-            var result = await InvokeFilterQuery(
+            var result = await InvokeQuery(
                 new GetOrderListQuery(PaginationOptions: paginationOptions)
             );
 
@@ -38,7 +38,7 @@ namespace SolforbTest.Core.Tests.Orders.Queries
         [Fact]
         public async Task GetOrderListQueryHandlerTests_GetByNumberExists_Success()
         {
-            var result = await InvokeFilterQuery(
+            var result = await InvokeQuery(
                 new GetOrderListQuery(
                     FilterOptions: new OrderFilterOptions(Numbers: new string[] { "Number 1" })
                 )
@@ -49,7 +49,7 @@ namespace SolforbTest.Core.Tests.Orders.Queries
         [Fact]
         public async Task GetOrderListQueryHandlerTests_GetByNumberNonExists_Empty()
         {
-            var result = await InvokeFilterQuery(
+            var result = await InvokeQuery(
                 new GetOrderListQuery(
                     FilterOptions: new OrderFilterOptions(
                         Numbers: new string[] { Guid.NewGuid().ToString() }
@@ -62,7 +62,7 @@ namespace SolforbTest.Core.Tests.Orders.Queries
         [Fact]
         public async Task GetOrderListQueryHandlerTests_GetByNameExists_Success()
         {
-            var result = await InvokeFilterQuery(
+            var result = await InvokeQuery(
                 new GetOrderListQuery(
                     FilterOptions: new OrderFilterOptions(Names: new string[] { "Name 3" })
                 )
@@ -73,7 +73,7 @@ namespace SolforbTest.Core.Tests.Orders.Queries
         [Fact]
         public async Task GetOrderListQueryHandlerTests_GetByNameNonExists_Empty()
         {
-            var result = await InvokeFilterQuery(
+            var result = await InvokeQuery(
                 new GetOrderListQuery(
                     FilterOptions: new OrderFilterOptions(
                         Names: new string[] { Guid.NewGuid().ToString() }
@@ -86,7 +86,7 @@ namespace SolforbTest.Core.Tests.Orders.Queries
         [Fact]
         public async Task GetOrderListQueryHandlerTests_GetByUnitExists_Success()
         {
-            var result = await InvokeFilterQuery(
+            var result = await InvokeQuery(
                 new GetOrderListQuery(
                     FilterOptions: new OrderFilterOptions(Units: new string[] { "kg" })
                 )
@@ -97,7 +97,7 @@ namespace SolforbTest.Core.Tests.Orders.Queries
         [Fact]
         public async Task GetOrderListQueryHandlerTests_GetByUnitNonExists_Empty()
         {
-            var result = await InvokeFilterQuery(
+            var result = await InvokeQuery(
                 new GetOrderListQuery(
                     FilterOptions: new OrderFilterOptions(
                         Units: new string[] { Guid.NewGuid().ToString() }
@@ -111,7 +111,7 @@ namespace SolforbTest.Core.Tests.Orders.Queries
         [Fact]
         public async Task GetOrderListQueryHandlerTests_GetByPeriodStartExists_Success()
         {
-            var result = await InvokeFilterQuery(
+            var result = await InvokeQuery(
                 new GetOrderListQuery(
                     FilterOptions: new OrderFilterOptions(
                         PeriodStart: TestData.CreateDateTime("11/09/2023")
@@ -124,7 +124,7 @@ namespace SolforbTest.Core.Tests.Orders.Queries
         [Fact]
         public async Task GetOrderListQueryHandlerTests_GetByPeriodStartNonExists_Empty()
         {
-            var result = await InvokeFilterQuery(
+            var result = await InvokeQuery(
                 new GetOrderListQuery(
                     FilterOptions: new OrderFilterOptions(
                         PeriodStart: TestData.CreateDateTime("12/01/2023")
@@ -137,7 +137,7 @@ namespace SolforbTest.Core.Tests.Orders.Queries
         [Fact]
         public async Task GetOrderListQueryHandlerTests_GetByPeriodEndExists_Success()
         {
-            var result = await InvokeFilterQuery(
+            var result = await InvokeQuery(
                 new GetOrderListQuery(
                     FilterOptions: new OrderFilterOptions(
                         PeriodEnd: TestData.CreateDateTime("11/09/2023")
@@ -150,7 +150,7 @@ namespace SolforbTest.Core.Tests.Orders.Queries
         [Fact]
         public async Task GetOrderListQueryHandlerTests_GetByPeriodEndNonExists_Empty()
         {
-            var result = await InvokeFilterQuery(
+            var result = await InvokeQuery(
                 new GetOrderListQuery(
                     FilterOptions: new OrderFilterOptions(
                         PeriodEnd: TestData.CreateDateTime("10/09/2023")
@@ -164,7 +164,7 @@ namespace SolforbTest.Core.Tests.Orders.Queries
         [Fact]
         public async Task GetOrderListQueryHandlerTests_GetByIntervalExists_Success()
         {
-            var result = await InvokeFilterQuery(
+            var result = await InvokeQuery(
                 new GetOrderListQuery(
                     FilterOptions: new OrderFilterOptions(
                         PeriodStart: TestData.CreateDateTime("11/04/2023"),
@@ -179,7 +179,7 @@ namespace SolforbTest.Core.Tests.Orders.Queries
         [Fact]
         public async Task GetOrderListQueryHandlerTests_GetByIntervalNonExists_Empty()
         {
-            var result = await InvokeFilterQuery(
+            var result = await InvokeQuery(
                 new GetOrderListQuery(
                     FilterOptions: new OrderFilterOptions(
                         PeriodStart: TestData.CreateDateTime("12/04/2023"),
@@ -194,7 +194,7 @@ namespace SolforbTest.Core.Tests.Orders.Queries
         [Fact]
         public async Task GetOrderListQueryHandlerTests_GetByProviderIdExists_Success()
         {
-            var result = await InvokeFilterQuery(
+            var result = await InvokeQuery(
                 new GetOrderListQuery(
                     FilterOptions: new OrderFilterOptions(ProviderIds: new int[] { 1 })
                 )
@@ -206,7 +206,7 @@ namespace SolforbTest.Core.Tests.Orders.Queries
         [Fact]
         public async Task GetOrderListQueryHandlerTests_GetByProviderIdNonExists_Empty()
         {
-            var result = await InvokeFilterQuery(
+            var result = await InvokeQuery(
                 new GetOrderListQuery(
                     FilterOptions: new OrderFilterOptions(ProviderIds: new int[] { 10 })
                 )
@@ -214,9 +214,7 @@ namespace SolforbTest.Core.Tests.Orders.Queries
             result.Orders.Count().ShouldBe(0);
         }
 
-        private async Task<OrderListViewModel> InvokeFilterQuery(
-            GetOrderListQuery getOrderListQuery
-        )
+        private async Task<OrderListViewModel> InvokeQuery(GetOrderListQuery getOrderListQuery)
         {
             var handler = new GetOrderListQueryHandler(_context);
             var result = await handler.Handle(getOrderListQuery, CancellationToken.None);
