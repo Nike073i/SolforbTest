@@ -44,7 +44,6 @@ namespace SolforbTest.WebClient.Controllers
                     new OrderItemDto(addDto.Name, addDto.Quantity, addDto.Unit)
                 )
             );
-            await _mediator.Send(addDto);
             return RedirectToAction("Update", "Order", new { addDto.OrderId });
         }
 

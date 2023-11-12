@@ -14,7 +14,7 @@ namespace SolforbTest.WebClient.Models.BindingModels
         [Required(ErrorMessage = "Количество должно быть указано")]
         [Range(
             typeof(decimal),
-            "0,1",
+            "1",
             "10000000",
             ErrorMessage = "Значение должно быть от {1} до {2}"
         )]
