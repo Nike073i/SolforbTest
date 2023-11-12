@@ -3,7 +3,7 @@ using SolforbTest.Application.Orders.Queries.GetOrderDetail;
 using SolforbTest.Core.Tests.Common;
 using SolforbTest.EfContext.Context;
 
-namespace SolforbTest.Core.Tests.Orders.Queries
+namespace SolforbTest.Core.Tests.Orders.Queries.GetOrderDetails
 {
     [Collection(nameof(QueryCollection))]
     public class GetOrderDetailsQueryHandlerTests
