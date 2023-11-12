@@ -5,6 +5,11 @@ namespace SolforbTest.Core.Tests.Common
 {
     public static class TestData
     {
+        public static int TestOrderItemId => 1001;
+        public static string TestOrderItemName => "Name 1";
+        public static decimal TestOrderItemQuantity => 15.531m;
+        public static string TestOrderItemUnit => "kg";
+
         public static DateTime CreateDateTime(string dateTime) =>
             DateTime.Parse(dateTime, CultureInfo.CreateSpecificCulture("en-US"));
 
@@ -16,7 +21,10 @@ namespace SolforbTest.Core.Tests.Common
                     Id = 1,
                     OrderItems = new List<OrderItem>
                     {
-                        new OrderItem("Name 1", 15.531m, "kg") { Id = 1001 },
+                        new OrderItem(TestOrderItemName, TestOrderItemQuantity, TestOrderItemUnit)
+                        {
+                            Id = TestOrderItemId
+                        },
                         new OrderItem("Name 2", 16.531m, "vt") { Id = 1002 },
                         new OrderItem("Name 3", 16.531m, "vt") { Id = 1003 },
                     }
