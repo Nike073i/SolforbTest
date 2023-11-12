@@ -6,7 +6,7 @@ using SolforbTest.Domain;
 
 namespace SolforbTest.Application.OrderItems.Commands.AddOrderItem
 {
-    public class AddOrderItemCommandHandler : IRequestHandler<AddOrderItemCommand, Unit>
+    public class AddOrderItemCommandHandler : IRequestHandler<AddOrderItemCommand, int>
     {
         private readonly ISolforbDbContext _dbContext;
 
@@ -15,7 +15,7 @@ namespace SolforbTest.Application.OrderItems.Commands.AddOrderItem
             _dbContext = dbContext;
         }
 
-        public async Task<Unit> Handle(
+        public async Task<int> Handle(
             AddOrderItemCommand request,
             CancellationToken cancellationToken
         )
@@ -42,13 +42,15 @@ namespace SolforbTest.Application.OrderItems.Commands.AddOrderItem
                     $"Элемент заказа \"{orderItemDto.Name}\" уже существует в заказе ({orderId})"
                 );
             }
-
-            order.OrderItems!.Add(
-                new OrderItem(orderItemDto.Name, orderItemDto.Quantity, orderItemDto.Unit)
+            var newOrderItem = new OrderItem(
+                orderItemDto.Name,
+                orderItemDto.Quantity,
+                orderItemDto.Unit
             );
+            order.OrderItems!.Add(newOrderItem);
 
             await _dbContext.SaveChangesAsync(cancellationToken);
-            return Unit.Value;
+            return newOrderItem.Id;
         }
     }
 }
