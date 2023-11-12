@@ -27,7 +27,7 @@ namespace SolforbTest.Application.Orders.Commands.CreateOrder
             bool orderExists = await _dbContext.Orders.DoesProviderAlreadyHaveOrder(
                 providerId,
                 number,
-                cancellationToken
+                cancellationToken: cancellationToken
             );
 
             if (orderExists)

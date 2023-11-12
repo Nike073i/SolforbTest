@@ -28,7 +28,6 @@ namespace SolforbTest.Application.Orders.Commands.UpdateOrder
 
             order.Date = newDate;
             order.ProviderId = newProviderId;
-            bool isNumberChanged = !newNumber.Equals(order.Number, StringComparison.Ordinal);
             order.Number = newNumber;
 
             if (order.OrderItems!.Any(item => item.Name == order.Number))
@@ -37,14 +36,13 @@ namespace SolforbTest.Application.Orders.Commands.UpdateOrder
                     $"Номер заказа - \"{order.Number}\" совпадает с названием элемента заказа"
                 );
             }
-            if (
-                isNumberChanged
-                && await _dbContext.Orders.DoesProviderAlreadyHaveOrder(
-                    order.ProviderId,
-                    order.Number,
-                    cancellationToken
-                )
-            )
+            bool orderAlreadyExists = await _dbContext.Orders.DoesProviderAlreadyHaveOrder(
+                order.ProviderId,
+                order.Number,
+                orderId,
+                cancellationToken
+            );
+            if (orderAlreadyExists)
             {
                 throw new AlreadyExistException(
                     $"Заказ с номером - {newNumber} у поставщика с Id - {request.ProviderId} уже существует"

@@ -14,10 +14,14 @@ namespace SolforbTest.Application.Orders.Helpers
             this IQueryable<Order> queryable,
             int providerId,
             string number,
+            int? excludeOrderId = null,
             CancellationToken cancellationToken = default
         ) =>
             queryable.AnyAsync(
-                o => o.Number == number && o.ProviderId == providerId,
+                o =>
+                    o.Number == number
+                    && o.ProviderId == providerId
+                    && (!excludeOrderId.HasValue || o.Id != excludeOrderId),
                 cancellationToken
             );
 
